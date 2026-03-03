@@ -18,9 +18,9 @@ export function Hero() {
   const [, setLoaded] = useState(false);
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
-  if (!heroConfig.title) return null;
-
   useEffect(() => {
+    if (!heroConfig.title) return;
+
     const tl = gsap.timeline({ delay: 0.2 });
 
     // Image scale + fade
@@ -126,6 +126,8 @@ export function Hero() {
       triggersRef.current = [];
     };
   }, []);
+
+  if (!heroConfig.title) return null;
 
   return (
     <section

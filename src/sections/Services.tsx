@@ -23,9 +23,9 @@ export function Services() {
   const mousePos = useRef({ x: 0, y: 0 });
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
-  if (!servicesConfig.title || servicesConfig.services.length === 0) return null;
-
   useEffect(() => {
+    if (!servicesConfig.title || servicesConfig.services.length === 0) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -100,6 +100,8 @@ export function Services() {
       triggersRef.current = [];
     };
   }, []);
+
+  if (!servicesConfig.title || servicesConfig.services.length === 0) return null;
 
   // Custom cursor follow for image preview
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
