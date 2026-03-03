@@ -20,9 +20,9 @@ export function Footer() {
   const borderRef = useRef<HTMLDivElement>(null);
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
-  if (!footerConfig.copyright) return null;
-
   useEffect(() => {
+    if (!footerConfig.copyright) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -88,6 +88,8 @@ export function Footer() {
       triggersRef.current = [];
     };
   }, []);
+
+  if (!footerConfig.copyright) return null;
 
   const marqueeText = footerConfig.marqueeText;
   const highlightChars = footerConfig.marqueeHighlightChars;

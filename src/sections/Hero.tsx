@@ -78,7 +78,7 @@ export function Hero() {
       '-=0.8'
     );
 
-    setLoaded(true);
+    requestAnimationFrame(() => setLoaded(true));
 
     // Scroll effects — parallax on the background image
     const trigger1 = ScrollTrigger.create({

@@ -14,8 +14,6 @@ export function Pricing() {
   const [animatedPrices, setAnimatedPrices] = useState<number[]>([]);
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
-  if (!pricingConfig.title || pricingConfig.plans.length === 0) return null;
-
   const plans = pricingConfig.plans;
 
   useEffect(() => {
@@ -130,7 +128,7 @@ export function Pricing() {
       triggersRef.current.forEach((t) => t.kill());
       triggersRef.current = [];
     };
-  }, []);
+  }, [plans]);
 
   const handleCardHover = (index: number, isEntering: boolean) => {
     const card = cardsRef.current[index];
@@ -156,6 +154,8 @@ export function Pricing() {
       });
     }
   };
+
+  if (!pricingConfig.title || pricingConfig.plans.length === 0) return null;
 
   return (
     <section

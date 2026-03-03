@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const image1Ref = useRef<HTMLDivElement>(null);
-  const image2Ref = useRef<HTMLDivElement>(null);
+
   const authorImageRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
@@ -16,9 +16,9 @@ export function About() {
   const authorTextRef = useRef<HTMLDivElement>(null);
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
-  if (!aboutConfig.titleLine1) return null;
-
   useEffect(() => {
+    if (!aboutConfig.titleLine1) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -39,19 +39,6 @@ export function About() {
             duration: 1.2,
             ease: 'expo.out',
           }
-        );
-
-        // Image 2 clip reveal
-        tl.fromTo(
-          image2Ref.current,
-          { clipPath: 'inset(0 100% 0 0)', scale: 1.05 },
-          {
-            clipPath: 'inset(0 0% 0 0)',
-            scale: 1,
-            duration: 1.1,
-            ease: 'expo.out',
-          },
-          '-=0.9'
         );
 
         // Title lines reveal
@@ -134,11 +121,6 @@ export function About() {
             y: 50 - self.progress * 100,
           });
         }
-        if (image2Ref.current) {
-          gsap.set(image2Ref.current, {
-            y: -30 + self.progress * 60,
-          });
-        }
         if (authorImageRef.current) {
           gsap.set(authorImageRef.current, {
             y: 30 - self.progress * 60,
@@ -153,6 +135,8 @@ export function About() {
       triggersRef.current = [];
     };
   }, []);
+
+  if (!aboutConfig.titleLine1) return null;
 
   const authorTextChars = aboutConfig.authorBio.split('');
 
@@ -169,31 +153,16 @@ export function About() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Left column - Images */}
+          {/* Left column - Image */}
           <div className="lg:col-span-5 relative">
-            {/* Image 1 */}
             <div
               ref={image1Ref}
-              className="relative w-full aspect-[2/3] overflow-hidden group cursor-pointer"
+              className="relative w-full h-[600px] lg:h-full min-h-[500px] overflow-hidden rounded-sm group cursor-pointer"
               style={{ willChange: 'clip-path, transform' }}
             >
               <img
-                src={aboutConfig.image1}
-                alt={aboutConfig.image1Alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-            </div>
-
-            {/* Image 2 - overlapping */}
-            <div
-              ref={image2Ref}
-              className="relative w-3/4 aspect-[2/3] mt-8 md:-mt-32 ml-auto md:mr-4 overflow-hidden group cursor-pointer z-10"
-              style={{ willChange: 'clip-path, transform' }}
-            >
-              <img
-                src={aboutConfig.image2}
-                alt={aboutConfig.image2Alt}
+                src="/lumora-asset.png"
+                alt="Lumora Jewels Online Store"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />

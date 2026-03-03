@@ -13,13 +13,12 @@ export function Services() {
   const imageRef = useRef<HTMLDivElement>(null);
   const imagePreviewRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-
-  useEffect(() => {
+  const isTouchDevice = (() => {
     if (typeof window !== 'undefined') {
-      setIsTouchDevice(window.matchMedia('(hover: none)').matches);
+      return window.matchMedia('(hover: none)').matches;
     }
-  }, []);
+    return false;
+  })();
   const mousePos = useRef({ x: 0, y: 0 });
   const triggersRef = useRef<ScrollTrigger[]>([]);
 

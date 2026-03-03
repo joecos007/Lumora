@@ -3,21 +3,21 @@ import { useEffect, useRef, useState } from 'react';
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const isVisible = (() => {
+    if (typeof window !== 'undefined') {
+      return !window.matchMedia('(pointer: coarse)').matches;
+    }
+    return false;
+  })();
   const positionRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    // Check if touch device
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      return;
-    }
-
-    setIsVisible(true);
+    if (!isVisible) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       positionRef.current = { x: e.clientX, y: e.clientY };
-      
+
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${e.clientX - 16}px, ${e.clientY - 16}px)`;
       }
@@ -57,20 +57,20 @@ export function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseover', handleMouseEnter);
       document.removeEventListener('mouseout', handleMouseLeave);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
+      const rafId = rafRef.current;
+      if (rafId) {
+        cancelAnimationFrame(rafId);
       }
     };
-  }, []);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 
   return (
     <div
       ref={cursorRef}
-      className={`fixed top-0 left-0 pointer-events-none z-[10000] mix-blend-screen transition-[width,height] duration-200 ease-out rounded-full ${
-        isHovering ? 'w-12 h-12' : 'w-8 h-8'
-      }`}
+      className={`fixed top-0 left-0 pointer-events-none z-[10000] mix-blend-screen transition-[width,height] duration-200 ease-out rounded-full ${isHovering ? 'w-12 h-12' : 'w-8 h-8'
+        }`}
       style={{
         background: 'rgba(234, 0, 0, 0.3)',
         willChange: 'transform',

@@ -25,9 +25,9 @@ export function Contact() {
   });
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
-  if (!contactConfig.title) return null;
-
   useEffect(() => {
+    if (!contactConfig.title) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -151,6 +151,8 @@ export function Contact() {
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  if (!contactConfig.title) return null;
 
   const titleWords = contactConfig.title.split(' ');
 

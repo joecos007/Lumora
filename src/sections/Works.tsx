@@ -12,18 +12,16 @@ export function Works() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const triggersRef = useRef<ScrollTrigger[]>([]);
-
-  useEffect(() => {
+  const isTouchDevice = (() => {
     if (typeof window !== 'undefined') {
-      setIsTouchDevice(window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
+      return window.innerWidth < 768 || window.matchMedia('(hover: none)').matches;
     }
-  }, []);
-
-  if (!worksConfig.title || worksConfig.projects.length === 0) return null;
+    return false;
+  })();
 
   useEffect(() => {
+    if (!worksConfig.title || worksConfig.projects.length === 0) return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -142,6 +140,8 @@ export function Works() {
     });
     setHoveredIndex(null);
   };
+
+  if (!worksConfig.title || worksConfig.projects.length === 0) return null;
 
   const titleChars = worksConfig.title.split('');
 
