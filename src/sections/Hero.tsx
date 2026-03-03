@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronDown } from 'lucide-react';
 import { heroConfig } from '../config';
+import { EmbeddedDiamond } from '../components/EmbeddedDiamond';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -164,7 +164,7 @@ export function Hero() {
           className="px-5 md:px-6 py-2 rounded border border-white/20 bg-black/20 backdrop-blur-md"
         >
           <span className="text-body-sm font-medium tracking-[0.1em] md:tracking-[0.2em] uppercase shimmer-text text-center block">
-            Handcrafted Jewelry
+            {heroConfig.badge}
           </span>
         </div>
       </div>
@@ -204,9 +204,9 @@ export function Hero() {
         }}
       />
 
-      {/* Scroll down indicator */}
-      <div className="absolute left-1/2 bottom-10 z-20 transform -translate-x-1/2 text-gold animate-bounce-subtle">
-        <ChevronDown className="w-7 h-7 opacity-60" />
+      {/* Scroll down indicator & Diamond */}
+      <div className="absolute left-1/2 bottom-10 z-20 transform -translate-x-1/2 flex flex-col items-center gap-2">
+        <EmbeddedDiamond className="opacity-90 animate-bounce-subtle" />
       </div>
 
       {/* Services label — vertical left */}

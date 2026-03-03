@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { aboutConfig } from '../config';
+import { EmbeddedDiamond } from '../components/EmbeddedDiamond';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -161,8 +162,8 @@ export function About() {
               style={{ willChange: 'clip-path, transform' }}
             >
               <img
-                src="/lumora-asset.png"
-                alt="Lumora Jewels Online Store"
+                src={aboutConfig.image1}
+                alt={aboutConfig.image1Alt}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
@@ -185,12 +186,17 @@ export function About() {
               </span>
             </h2>
 
-            {/* Custom line art */}
-            <div
-              ref={lineRef}
-              className="h-px bg-gradient-to-r from-transparent via-gold to-transparent mb-8"
-              style={{ willChange: 'width' }}
-            />
+            {/* Custom line art and Embedded Diamond */}
+            <div className="relative mb-12 flex items-center h-12">
+              <div
+                ref={lineRef}
+                className="absolute left-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent z-0"
+                style={{ willChange: 'width', top: '50%' }}
+              />
+              <div className="absolute right-12 z-10 transform translate-x-1/2">
+                <EmbeddedDiamond className="w-10 h-10" />
+              </div>
+            </div>
 
             {/* About text */}
             <p

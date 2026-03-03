@@ -111,7 +111,7 @@ export function Navigation() {
         ref={navRef}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
           ? 'bg-black/80 backdrop-blur-xl border-b border-gold/10 py-4 shadow-xl'
-          : 'bg-transparent pt-6 pb-8'
+          : 'bg-transparent pt-6 pb-8 bg-gradient-to-b from-black/80 via-black/40 to-transparent'
           }`}
       >
         <div className="max-w-7xl mx-auto px-8 lg:px-16 flex items-center justify-between">
@@ -151,12 +151,11 @@ export function Navigation() {
                 viewBox="0 0 32 32"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={`w-9 h-9 relative z-10 transition-all duration-500 ${isScrolled ? 'text-gold' : 'text-gray-900'
-                  }`}
+                className={`w-9 h-9 relative z-10 transition-all duration-500`}
                 style={{
                   filter: isScrolled
                     ? 'drop-shadow(0 0 6px rgba(201,165,90,0.6))'
-                    : 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))',
+                    : 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
                 }}
               >
                 <defs>
@@ -180,7 +179,7 @@ export function Navigation() {
                 <path
                   className="diamond-body transition-all duration-500"
                   d="M16 28L3 12L8 4H24L29 12L16 28Z"
-                  stroke={isScrolled ? 'url(#diamond-gradient-gold)' : 'currentColor'}
+                  stroke={isScrolled ? 'url(#diamond-gradient-gold)' : 'rgba(255,255,255,0.8)'}
                   strokeWidth="2.5"
                   strokeLinejoin="round"
                   fill="none"
@@ -189,7 +188,7 @@ export function Navigation() {
                 <path
                   className="diamond-facets transition-all duration-500"
                   d="M3 12H29M16 28L10 12M16 28L22 12M10 12L8 4M10 12L16 4M22 12L16 4M22 12L24 4"
-                  stroke={isScrolled ? 'url(#diamond-gradient-gold)' : 'currentColor'}
+                  stroke={isScrolled ? 'url(#diamond-gradient-gold)' : 'rgba(255,255,255,0.8)'}
                   strokeWidth="1.5"
                   strokeLinejoin="round"
                   opacity={isScrolled ? "0.5" : "0.3"}
@@ -198,7 +197,7 @@ export function Navigation() {
                 <path
                   className="diamond-sparkle transition-all duration-500"
                   d="M16 1L16.8 2.5L18.5 2.5L17.2 3.5L17.6 5L16 4L14.4 5L14.8 3.5L13.5 2.5L15.2 2.5L16 1Z"
-                  fill={isScrolled ? "#e8d5a3" : "#c9a55a"}
+                  fill={isScrolled ? "#e8d5a3" : "#ffffff"}
                   opacity="0.9"
                   filter={isScrolled ? "url(#diamond-glow)" : "none"}
                 />
@@ -208,14 +207,13 @@ export function Navigation() {
             {/* Logo Text "Lumora" */}
             <motion.span
               ref={logoTextRef}
-              className={`text-h5 font-semibold tracking-[0.15em] transition-all duration-500 flex ${isScrolled ? 'text-white' : 'text-gray-900'
-                }`}
+              className={`text-h5 font-semibold tracking-[0.15em] transition-all duration-500 flex text-white`}
               whileHover={{ letterSpacing: '0.2em' }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               style={{
                 filter: isScrolled
                   ? 'drop-shadow(0 0 8px rgba(201,165,90,0.4))'
-                  : 'none',
+                  : 'drop-shadow(0 2px 4px rgba(0,0,0,0.6))',
               }}
             >
               {logoText.split('').map((char, i) => (
@@ -246,10 +244,7 @@ export function Navigation() {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`text-body font-semibold tracking-wide transition-all duration-500 relative group ${isScrolled
-                  ? 'text-white/90 hover:text-white'
-                  : 'text-gray-900 hover:text-black drop-shadow-md'
-                  }`}
+                className={`text-body font-semibold tracking-wide transition-all duration-500 relative group text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] hover:text-white/80`}
               >
                 {item.label}
                 <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300" />
@@ -261,7 +256,7 @@ export function Navigation() {
           <div className="lg:hidden flex items-center pr-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`${(isScrolled || isMobileMenuOpen) ? 'text-white' : 'text-gray-900'} hover:text-gold transition-colors p-3 -m-3 focus:outline-none`}
+              className={`text-white hover:text-gold transition-colors p-3 -m-3 focus:outline-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
             >

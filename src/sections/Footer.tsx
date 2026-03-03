@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Instagram, Dribbble, ArrowUpRight } from 'lucide-react';
 import { footerConfig } from '../config';
+import { EmbeddedDiamond } from '../components/EmbeddedDiamond';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +15,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 export function Footer() {
   const sectionRef = useRef<HTMLElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const marqueeContentRef = useRef<HTMLDivElement>(null);
   const linksCol1Ref = useRef<(HTMLAnchorElement | null)[]>([]);
   const linksCol2Ref = useRef<(HTMLAnchorElement | null)[]>([]);
   const copyrightRef = useRef<HTMLDivElement>(null);
@@ -32,12 +34,17 @@ export function Footer() {
       onEnter: () => {
         const tl = gsap.timeline();
 
-        // Marquee fade in and start
-        tl.fromTo(
-          marqueeRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 1, ease: 'power2.out' }
-        );
+        // Infinite Marquee Scroll
+        if (marqueeContentRef.current) {
+          const contentWidth = marqueeContentRef.current.scrollWidth / 2;
+          
+          gsap.to(marqueeContentRef.current, {
+            x: -contentWidth,
+            duration: 20,
+            ease: "none",
+            repeat: -1,
+          });
+        }
 
         // Top border draw
         tl.fromTo(
@@ -109,10 +116,14 @@ export function Footer() {
         <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-black to-transparent z-10" />
 
         {/* Marquee content */}
-        <div className="marquee-container">
-          <div className="marquee-content flex items-center gap-4 md:gap-8 text-[36px] md:text-[56px] lg:text-[112px] font-medium whitespace-nowrap">
+        <div className="flex w-full overflow-hidden">
+          <div 
+            ref={marqueeContentRef}
+            className="flex items-center text-[36px] md:text-[56px] lg:text-[112px] font-medium whitespace-nowrap will-change-transform flex-nowrap w-max"
+          >
+            {/* We render exactly 4 sets to ensure the seam is never visible on any screen size */}
             {[...Array(4)].map((_, i) => (
-              <span key={i} className="flex items-center gap-8">
+              <span key={i} className="flex items-center gap-4 md:gap-8 px-4 md:px-8 whitespace-nowrap shrink-0">
                 {marqueeText.split('').map((char, j) => (
                   <span
                     key={j}
@@ -130,7 +141,7 @@ export function Footer() {
                     {char}
                   </span>
                 ))}
-                <span className="text-white/30 mx-4">&bull;</span>
+                <span className="text-white/30">&bull;</span>
               </span>
             ))}
           </div>
@@ -214,18 +225,21 @@ export function Footer() {
         {/* Copyright */}
         <div
           ref={copyrightRef}
-          className="mt-20 pt-8 border-t border-white/10 flex flex-col lg:flex-row justify-between items-center gap-4"
+          className="mt-20 pt-8 border-t border-white/10 flex flex-col items-center gap-6"
         >
-          <p className="text-body-sm text-white/40">
-            {footerConfig.copyright}
-          </p>
-          <p className="text-body-sm text-white/30">
-            {footerConfig.tagline}
-          </p>
+          <EmbeddedDiamond className="w-8 h-8 opacity-80" />
+          <div className="flex flex-col lg:flex-row w-full justify-between items-center gap-4">
+            <p className="text-body-sm text-white/40">
+              {footerConfig.copyright}
+            </p>
+            <p className="text-body-sm text-white/30">
+              {footerConfig.tagline}
+            </p>
+          </div>
         </div>
         <div className="mt-4 text-center">
           <p className="text-body-sm text-white/25 tracking-wide">
-            Fueled by Caffeine &amp; Code. Crafted by <span className="text-gold/60">Oliver Oinam</span>
+            {footerConfig.developerCredit}
           </p>
         </div>
       </div>

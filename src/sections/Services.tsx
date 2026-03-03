@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { servicesConfig } from '../config';
+import { EmbeddedDiamond } from '../components/EmbeddedDiamond';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -173,19 +174,24 @@ export function Services() {
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-20">
-          <h2
-            ref={titleRef}
-            className="text-h2 md:text-h1 lg:text-display-xl text-white font-medium mb-6"
-          >
-            {servicesConfig.title}
-          </h2>
-          <p
-            ref={subtitleRef}
-            className="text-body-lg text-white/60 max-w-2xl"
-          >
-            {servicesConfig.subtitle}
-          </p>
+        <div className="mb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+          <div>
+            <h2
+              ref={titleRef}
+              className="text-h2 md:text-h1 lg:text-display-xl text-white font-medium mb-6"
+            >
+              {servicesConfig.title}
+            </h2>
+            <p
+              ref={subtitleRef}
+              className="text-body-lg text-white/60 max-w-2xl"
+            >
+              {servicesConfig.subtitle}
+            </p>
+          </div>
+          <div className="hidden md:block">
+             <EmbeddedDiamond className="w-16 h-16" />
+          </div>
         </div>
 
         {/* Services list */}

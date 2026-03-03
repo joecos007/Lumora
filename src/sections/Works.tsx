@@ -18,6 +18,7 @@ export function Works() {
     }
     return false;
   })();
+  const triggersRef = useRef<ScrollTrigger[]>([]);
 
   useEffect(() => {
     if (!worksConfig.title || worksConfig.projects.length === 0) return;
