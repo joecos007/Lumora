@@ -57,6 +57,7 @@ export function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseover', handleMouseEnter);
       document.removeEventListener('mouseout', handleMouseLeave);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const rafId = rafRef.current;
       if (rafId) {
         cancelAnimationFrame(rafId);

@@ -11,14 +11,14 @@ export function Pricing() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const [animatedPrices, setAnimatedPrices] = useState<number[]>([]);
+  const [animatedPrices, setAnimatedPrices] = useState<number[]>(() =>
+    new Array(pricingConfig.plans.length).fill(0)
+  );
   const triggersRef = useRef<ScrollTrigger[]>([]);
 
   const plans = pricingConfig.plans;
 
   useEffect(() => {
-    setAnimatedPrices(new Array(plans.length).fill(0));
-
     const section = sectionRef.current;
     if (!section) return;
 
