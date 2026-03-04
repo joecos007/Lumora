@@ -135,15 +135,18 @@ export function Services() {
         <div className="space-y-0">
           {servicesConfig.services.map((service, index) => (
             <div
-              key={index}
+              key={service.id}
               ref={(el) => { itemsRef.current[index] = el; }}
               className="service-item group relative border-b border-gold/20"
               onMouseEnter={() => handleItemEnter(index)}
               onMouseLeave={handleItemLeave}
             >
-              <div
-                className="py-10 flex flex-col md:flex-row md:items-center justify-between cursor-pointer"
+              <button
+                type="button"
+                className="w-full py-10 flex flex-col md:flex-row md:items-center justify-between text-left cursor-pointer"
                 onClick={() => toggleAccordion(index)}
+                aria-expanded={expandedIndex === index}
+                aria-controls={`service-panel-${service.id}`}
               >
                 <div className="flex items-center gap-8 md:gap-16 z-10 w-full md:w-auto">
                   <span className="text-body text-gold/50 font-mono group-hover:text-gold transition-all duration-300">
@@ -170,7 +173,7 @@ export function Services() {
                 <div className="text-gold/50 transition-colors duration-300 group-hover:text-gold hidden md:block">
                   {expandedIndex === index ? <Minus className="w-8 h-8" /> : <Plus className="w-8 h-8" />}
                 </div>
-              </div>
+              </button>
 
               {/* Accordion body expand */}
               <AnimatePresence>

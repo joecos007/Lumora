@@ -29,6 +29,24 @@ export function Footer() {
     const section = sectionRef.current;
     if (!section) return;
 
+    const startMarquee = () => {
+      if (!marqueeContentRef.current) return;
+      marqueeTweenRef.current?.kill();
+      const contentWidth = marqueeContentRef.current.scrollWidth / 2;
+      marqueeTweenRef.current = gsap.to(marqueeContentRef.current, {
+        x: -contentWidth,
+        duration: 20,
+        ease: "none",
+        repeat: -1,
+      });
+    };
+
+    let resizeTimer: number;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(startMarquee, 200);
+    };
+
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top 90%',
@@ -36,16 +54,7 @@ export function Footer() {
         const tl = gsap.timeline();
 
         // Infinite Marquee Scroll
-        if (marqueeContentRef.current) {
-          const contentWidth = marqueeContentRef.current.scrollWidth / 2;
-
-          marqueeTweenRef.current = gsap.to(marqueeContentRef.current, {
-            x: -contentWidth,
-            duration: 20,
-            ease: "none",
-            repeat: -1,
-          });
-        }
+        startMarquee();
 
         // Top border draw
         tl.fromTo(
@@ -86,12 +95,16 @@ export function Footer() {
           { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
           '-=0.2'
         );
+
+        window.addEventListener('resize', handleResize, { passive: true });
       },
       once: true,
     });
     triggersRef.current.push(trigger);
 
     return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
       marqueeTweenRef.current?.kill();
       triggersRef.current.forEach((t) => t.kill());
       triggersRef.current = [];

@@ -110,6 +110,18 @@ export function Blog() {
     };
   }, []);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (expandedId !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [expandedId]);
+
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!buttonRef.current) return;
     if (!buttonBoundsRef.current) {
@@ -125,7 +137,8 @@ export function Blog() {
       x: x * 15,
       y: y * 15,
       duration: 0.3,
-      ease: "power2.out"
+      ease: "power2.out",
+      overwrite: true
     });
   };
 
@@ -187,6 +200,14 @@ export function Blog() {
                 }}
                 className="group cursor-pointer"
                 onClick={() => setExpandedId(post.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setExpandedId(post.id);
+                  }
+                }}
               >
                 {/* Image */}
                 <div className="post-image relative aspect-[4/3] overflow-hidden bg-dark-gray border border-gold/10 group-hover:border-gold/30 transition-colors duration-500 mb-6">
@@ -252,24 +273,29 @@ export function Blog() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8 lg:p-16 overflow-y-auto"
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-4 md:p-8 lg:p-16 overflow-y-auto"
             onClick={() => setExpandedId(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`blog-modal-title-${expandedId}`}
           >
             {(() => {
               const post = blogConfig.posts.find(p => p.id === expandedId);
               if (!post) return null;
               return (
                 <motion.div
-                  initial={{ y: 50, scale: 0.95, opacity: 0 }}
-                  animate={{ y: 0, scale: 1, opacity: 1 }}
-                  exit={{ y: 20, scale: 0.95, opacity: 0 }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeOut', delay: 0.15 }}
                   onClick={(e) => e.stopPropagation()}
                   className="relative w-full max-w-4xl bg-[#0a0806] border border-gold/10 rounded-2xl overflow-hidden shadow-2xl mx-auto my-auto"
                 >
                   <button
                     onClick={() => setExpandedId(null)}
-                    className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-12 h-12 bg-black/30 hover:bg-gold hover:text-black rounded-full flex items-center justify-center text-white transition-all backdrop-blur-md"
+                    aria-label="Close article"
+                    className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-12 h-12 bg-black/70 hover:bg-gold hover:text-black rounded-full flex items-center justify-center text-white transition-colors"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -278,11 +304,11 @@ export function Blog() {
                     <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0806] via-[#0a0806]/60 to-transparent pointer-events-none" />
                     <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 flex items-center gap-6 text-body-sm text-gold/80">
-                      <span className="flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-full border border-gold/20 backdrop-blur-md">
+                      <span className="flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-full border border-gold/20">
                         <Clock className="w-4 h-4" />
                         {blogConfig.readTimePrefix}{post.readTime}
                       </span>
-                      <span className="flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-full border border-gold/20 backdrop-blur-md">
+                      <span className="flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-full border border-gold/20">
                         <Calendar className="w-4 h-4" />
                         {post.date}
                       </span>
@@ -293,7 +319,7 @@ export function Blog() {
                     <span className="text-gold tracking-widest uppercase text-sm mb-4 block">
                       {post.category}
                     </span>
-                    <h3 className="text-h3 lg:text-h2 text-white font-medium mb-8 leading-tight">
+                    <h3 id={`blog-modal-title-${post.id}`} className="text-h3 lg:text-h2 text-white font-medium mb-8 leading-tight">
                       {post.title}
                     </h3>
                     <div className="space-y-6">
@@ -310,7 +336,7 @@ export function Blog() {
                     <div className="mt-12 pt-8 border-t border-white/10 flex justify-between items-center">
                       <button
                         onClick={() => setExpandedId(null)}
-                        className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white tracking-widest rounded-sm border border-white/10 transition-all uppercase text-sm"
+                        className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white tracking-widest rounded-sm border border-white/10 transition-[background-color] uppercase text-sm"
                       >
                         Close
                       </button>

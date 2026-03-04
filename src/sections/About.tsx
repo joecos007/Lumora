@@ -16,6 +16,8 @@ export function About() {
   const lineRef = useRef<HTMLDivElement>(null);
   const authorTextRef = useRef<HTMLDivElement>(null);
   const triggersRef = useRef<ScrollTrigger[]>([]);
+  const isTouchDevice = typeof window !== 'undefined'
+    && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
 
   useEffect(() => {
     if (!aboutConfig.titleLine1) return;
@@ -110,44 +112,46 @@ export function About() {
     });
     triggersRef.current.push(trigger);
 
-    // Parallax on scroll
-    const parallaxTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: 1,
-      onUpdate: (self) => {
-        if (image1Ref.current) {
-          gsap.set(image1Ref.current, {
-            y: 50 - self.progress * 100,
-          });
-        }
-        if (authorImageRef.current) {
-          gsap.set(authorImageRef.current, {
-            y: 30 - self.progress * 60,
-          });
-        }
-        if (textRef.current) {
-          gsap.set(textRef.current, {
-            y: 20 - self.progress * 40,
-          });
-        }
-      },
-    });
-    triggersRef.current.push(parallaxTrigger);
+    // Parallax on scroll — skip on mobile to prevent jank
+    if (!isTouchDevice) {
+      const parallaxTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+        onUpdate: (self) => {
+          if (image1Ref.current) {
+            gsap.set(image1Ref.current, {
+              y: 50 - self.progress * 100,
+            });
+          }
+          if (authorImageRef.current) {
+            gsap.set(authorImageRef.current, {
+              y: 30 - self.progress * 60,
+            });
+          }
+          if (textRef.current) {
+            gsap.set(textRef.current, {
+              y: 20 - self.progress * 40,
+            });
+          }
+        },
+      });
+      triggersRef.current.push(parallaxTrigger);
+    }
 
     return () => {
       triggersRef.current.forEach((t) => t.kill());
       triggersRef.current = [];
     };
-  }, []);
+  }, [isTouchDevice]);
 
   if (!aboutConfig.titleLine1) return null;
 
   const authorWords = aboutConfig.authorBio.split(' ');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!sectionRef.current) return;
+    if (isTouchDevice || !sectionRef.current) return;
     const { left, top } = sectionRef.current.getBoundingClientRect();
     const x = e.clientX - left;
     const y = e.clientY - top;

@@ -11,6 +11,8 @@ export function Testimonials() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const triggersRef = useRef<ScrollTrigger[]>([]);
+  const isTouchDevice = typeof window !== 'undefined'
+    && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
 
   useEffect(() => {
     if (!testimonialsConfig.title || testimonialsConfig.testimonials.length === 0) return;
@@ -32,25 +34,17 @@ export function Testimonials() {
           { letterSpacing: '0px', opacity: 1, duration: 0.8, ease: 'expo.out' }
         );
 
-        // Cards 3D rise
+        // Cards entry — simple fade-up on mobile, 3D rise on desktop
         cardsRef.current.forEach((card, i) => {
           if (card) {
             tl.fromTo(
               card,
-              {
-                y: 100,
-                z: -50,
-                rotateX: 15,
-                opacity: 0,
-              },
-              {
-                y: 0,
-                z: 0,
-                rotateX: 0,
-                opacity: 1,
-                duration: 1,
-                ease: 'expo.out',
-              },
+              isTouchDevice
+                ? { y: 40, opacity: 0 }
+                : { y: 100, z: -50, rotateX: 15, opacity: 0 },
+              isTouchDevice
+                ? { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }
+                : { y: 0, z: 0, rotateX: 0, opacity: 1, duration: 1, ease: 'expo.out' },
               `-=${0.8 - i * 0.2}`
             );
 
@@ -86,34 +80,36 @@ export function Testimonials() {
     });
     triggersRef.current.push(trigger);
 
-    // Sticky card stacking scroll effect
-    const scrollTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 20%',
-      end: 'bottom bottom',
-      scrub: 1,
-      onUpdate: (self) => {
-        cardsRef.current.forEach((card, i) => {
-          if (card) {
-            const progress = Math.min(1, Math.max(0, self.progress * 3 - i * 0.3));
-            const shadow = 10 + progress * 20;
-            const scale = 1 + progress * 0.02;
+    // Sticky card stacking scroll effect — skip on mobile
+    if (!isTouchDevice) {
+      const scrollTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: 'top 20%',
+        end: 'bottom bottom',
+        scrub: 1,
+        onUpdate: (self) => {
+          cardsRef.current.forEach((card, i) => {
+            if (card) {
+              const progress = Math.min(1, Math.max(0, self.progress * 3 - i * 0.3));
+              const shadow = 10 + progress * 20;
+              const scale = 1 + progress * 0.02;
 
-            gsap.set(card, {
-              boxShadow: `0 ${shadow}px ${shadow * 2}px rgba(0,0,0,${0.2 + progress * 0.2})`,
-              scale: scale,
-            });
-          }
-        });
-      },
-    });
-    triggersRef.current.push(scrollTrigger);
+              gsap.set(card, {
+                boxShadow: `0 ${shadow}px ${shadow * 2}px rgba(0,0,0,${0.2 + progress * 0.2})`,
+                scale: scale,
+              });
+            }
+          });
+        },
+      });
+      triggersRef.current.push(scrollTrigger);
+    }
 
     return () => {
       triggersRef.current.forEach((t) => t.kill());
       triggersRef.current = [];
     };
-  }, []);
+  }, [isTouchDevice]);
 
   if (!testimonialsConfig.title || testimonialsConfig.testimonials.length === 0) return null;
 
@@ -122,7 +118,7 @@ export function Testimonials() {
       ref={sectionRef}
       id="testimonials"
       className="relative py-20 md:py-32 px-6 md:px-8 lg:px-16 bg-gradient-to-b from-dark-gray to-black overflow-hidden"
-      style={{ perspective: '1200px' }}
+      style={isTouchDevice ? undefined : { perspective: '1200px' }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Section title */}

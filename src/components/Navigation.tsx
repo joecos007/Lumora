@@ -15,6 +15,8 @@ export function Navigation() {
   const buttonBoundsRef = useRef<DOMRect | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isTouchDevice = typeof window !== 'undefined'
+    && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
 
   useEffect(() => {
     if (!navigationConfig.logo) return;
@@ -162,8 +164,8 @@ export function Navigation() {
               <motion.div
                 className="absolute inset-0 -m-2"
                 animate={{
-                  opacity: isScrolled ? [0.3, 0.7, 0.3] : 0,
-                  scale: isScrolled ? [0.95, 1.05, 0.95] : 1,
+                  opacity: (isScrolled && !isTouchDevice) ? [0.3, 0.7, 0.3] : 0,
+                  scale: (isScrolled && !isTouchDevice) ? [0.95, 1.05, 0.95] : 1,
                 }}
                 transition={{
                   duration: 3,

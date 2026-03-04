@@ -113,10 +113,11 @@ export function FAQ() {
 
               {/* Answer */}
               <div
-                className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${openIndex === index
+                className={`overflow-hidden transition-all duration-500 ${openIndex === index
                   ? 'max-h-[500px] opacity-100'
                   : 'max-h-0 opacity-0'
                   }`}
+                style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
               >
                 <div className="pb-8 pr-12 md:pr-24 text-body-lg text-white/70 font-light leading-relaxed border-l-2 border-gold/40 pl-6 ml-6 md:ml-12">
                   {faq.answer}

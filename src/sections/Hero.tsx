@@ -19,6 +19,8 @@ export function Hero() {
   const buttonBoundsRef = useRef<DOMRect | null>(null);
   const [, setLoaded] = useState(false);
   const triggersRef = useRef<ScrollTrigger[]>([]);
+  const isTouchDevice = typeof window !== 'undefined'
+    && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
 
   useEffect(() => {
     if (!heroConfig.title) return;
@@ -82,52 +84,53 @@ export function Hero() {
 
     requestAnimationFrame(() => setLoaded(true));
 
-    // Scroll effects — parallax on the background image
-    const trigger1 = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: '50% top',
-      scrub: 1,
-      onUpdate: (self) => {
-        if (imageRef.current) {
-          gsap.set(imageRef.current, {
-            y: `${self.progress * 45}%`,
-            opacity: 1 - self.progress * 0.65,
-          });
-        }
-      },
-    });
-    triggersRef.current.push(trigger1);
+    // Scroll effects — skip parallax scrub on mobile to prevent jank
+    if (!isTouchDevice) {
+      const trigger1 = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: '50% top',
+        scrub: 1,
+        onUpdate: (self) => {
+          if (imageRef.current) {
+            gsap.set(imageRef.current, {
+              y: `${self.progress * 45}%`,
+              opacity: 1 - self.progress * 0.65,
+            });
+          }
+        },
+      });
+      triggersRef.current.push(trigger1);
 
-    // Scroll effect — title fades out
-    const trigger2 = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: '10% top',
-      end: '40% top',
-      scrub: 1,
-      onUpdate: (self) => {
-        if (titleRef.current) {
-          gsap.set(titleRef.current, {
-            opacity: 1 - self.progress,
-            y: -30 * self.progress,
-          });
-        }
-        if (subtitleRef.current) {
-          gsap.set(subtitleRef.current, {
-            opacity: 1 - self.progress,
-            y: -20 * self.progress,
-          });
-        }
-      },
-    });
-    triggersRef.current.push(trigger2);
+      const trigger2 = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: '10% top',
+        end: '40% top',
+        scrub: 1,
+        onUpdate: (self) => {
+          if (titleRef.current) {
+            gsap.set(titleRef.current, {
+              opacity: 1 - self.progress,
+              y: -30 * self.progress,
+            });
+          }
+          if (subtitleRef.current) {
+            gsap.set(subtitleRef.current, {
+              opacity: 1 - self.progress,
+              y: -20 * self.progress,
+            });
+          }
+        },
+      });
+      triggersRef.current.push(trigger2);
+    }
 
     return () => {
       tl.kill();
       triggersRef.current.forEach((t) => t.kill());
       triggersRef.current = [];
     };
-  }, []);
+  }, [isTouchDevice]);
 
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!buttonRef.current) return;
@@ -144,7 +147,8 @@ export function Hero() {
       x: x * 15,
       y: y * 15,
       duration: 0.3,
-      ease: "power2.out"
+      ease: "power2.out",
+      overwrite: true
     });
   };
 
