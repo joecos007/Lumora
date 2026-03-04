@@ -110,6 +110,7 @@ export function Navigation() {
   };
 
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (prefersReducedMotion) return;
     if (!buttonRef.current) return;
     if (!buttonBoundsRef.current) {
       buttonBoundsRef.current = buttonRef.current.getBoundingClientRect();
@@ -130,6 +131,7 @@ export function Navigation() {
 
   const handleButtonMouseLeave = () => {
     buttonBoundsRef.current = null;
+    if (prefersReducedMotion || !buttonRef.current) return;
     gsap.to(buttonRef.current, {
       x: 0,
       y: 0,
@@ -159,7 +161,7 @@ export function Navigation() {
             {/* Animated Diamond Icon */}
             <motion.div
               className="relative"
-              whileHover={{ scale: 1.1 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 400, damping: 15 }}
             >
               {/* Glow halo behind diamond — only show when scrolled or on hover */}
@@ -243,7 +245,7 @@ export function Navigation() {
             <motion.span
               ref={logoTextRef}
               className={`text-h5 font-semibold tracking-[0.15em] transition-all duration-500 flex text-white`}
-              whileHover={{ letterSpacing: '0.2em' }}
+              whileHover={prefersReducedMotion ? undefined : { letterSpacing: '0.2em' }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               style={{
                 filter: isScrolled
@@ -279,10 +281,10 @@ export function Navigation() {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`text-body font-semibold tracking-wide transition-all duration-500 relative group text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm px-1`}
+                className={`text-body font-semibold tracking-wide transition-all duration-500 relative group text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-none px-1`}
               >
                 {item.label}
-                <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300 motion-reduce:transition-none motion-reduce:w-full" />
               </a>
             ))}
 
@@ -292,7 +294,7 @@ export function Navigation() {
               onMouseMove={handleButtonMouseMove}
               onMouseLeave={handleButtonMouseLeave}
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="px-6 py-2.5 rounded-sm border border-gold/50 text-gold text-body-sm tracking-widest uppercase hover:bg-gold hover:text-black transition-colors duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] cursor-pointer"
+              className="px-6 py-2.5 rounded-none border border-gold/50 text-gold text-body-sm tracking-widest uppercase hover:bg-gold hover:text-black transition-colors duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] cursor-pointer"
             >
               Book Appointment
             </a>
@@ -302,7 +304,7 @@ export function Navigation() {
           <div className="lg:hidden flex items-center pr-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`text-white hover:text-gold transition-colors p-3 -m-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-md drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]`}
+              className={`text-white hover:text-gold transition-colors p-3 -m-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]`}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
             >

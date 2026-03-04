@@ -182,15 +182,15 @@ export function Blog() {
               </p>
             </div>
 
-            <button
-              ref={buttonRef}
-              onMouseMove={handleButtonMouseMove}
-              onMouseLeave={handleButtonMouseLeave}
-              className="hidden lg:flex items-center gap-2 text-body text-white/60 hover:text-white transition-colors duration-300 mt-8 lg:mt-0 group px-6 py-3 rounded-full border border-white/10 hover:border-gold/30 hover:bg-gold/5"
-            >
-              {blogConfig.allPostsLabel}
-              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-            </button>
+              <button
+                ref={buttonRef}
+                onMouseMove={handleButtonMouseMove}
+                onMouseLeave={handleButtonMouseLeave}
+                className="hidden lg:flex items-center gap-2 text-body text-white/60 hover:text-white transition-colors duration-300 mt-8 lg:mt-0 group px-6 py-3 rounded-none border border-white/10 hover:border-gold/30 hover:bg-gold/5 motion-reduce:transition-none"
+              >
+                {blogConfig.allPostsLabel}
+                <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 motion-reduce:transition-none motion-reduce:transform-none" />
+              </button>
           </div>
 
           {/* Blog posts grid */}
@@ -213,24 +213,24 @@ export function Blog() {
                 }}
               >
                 {/* Image */}
-                <div className="post-image relative aspect-[4/3] overflow-hidden bg-dark-gray border border-gold/10 group-hover:border-gold/30 transition-colors duration-500 mb-6">
+                <div className="post-image relative aspect-[4/3] overflow-hidden bg-dark-gray border border-gold/10 group-hover:border-gold/30 transition-colors duration-500 mb-6 motion-reduce:transition-none">
                   <img
                     src={post.image}
                     alt={post.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:transform-none"
                   />
 
                   {/* Category tag */}
-                  <div className="absolute top-6 left-6 px-4 py-1.5 bg-black/60 backdrop-blur-md text-gold text-body-sm font-medium rounded-full border border-gold/20">
+                  <div className="absolute top-6 left-6 px-4 py-1.5 bg-black/60 backdrop-blur-md text-gold text-body-sm font-medium rounded-none border border-gold/20">
                     <span className="text-body-sm text-white">
                       {post.category}
                     </span>
                   </div>
 
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-gold/0 to-gold/0 group-hover:from-gold/5 group-hover:to-gold/10 transition-colors duration-500 rounded-lg pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-gold/0 to-gold/0 group-hover:from-gold/5 group-hover:to-gold/10 transition-colors duration-500 rounded-none pointer-events-none" />
                 </div>
 
                 {/* Content */}
@@ -260,7 +260,7 @@ export function Blog() {
                   {/* Read more */}
                   <div className="inline-flex items-center text-body font-medium text-white group-hover:text-gold transition-colors duration-300">
                     {blogConfig.readMoreLabel}
-                    <span className="ml-2 w-0 h-px bg-gold group-hover:w-8 transition-all duration-300" />
+                    <span className="ml-2 w-0 h-px bg-gold group-hover:w-8 transition-all duration-300 motion-reduce:transition-none motion-reduce:w-8" />
                   </div>
                 </div>
               </div>
@@ -293,12 +293,12 @@ export function Blog() {
                   exit={prefersReducedMotion ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
                   transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: 'easeOut', delay: 0.15 }}
                   onClick={(e) => e.stopPropagation()}
-                  className="relative w-full max-w-4xl bg-[#0a0806] border border-gold/10 rounded-2xl overflow-hidden shadow-2xl mx-auto my-auto"
+                  className="relative w-full max-w-4xl bg-[#0a0806] border border-gold/10 rounded-none overflow-hidden shadow-2xl mx-auto my-auto"
                 >
                   <button
                     onClick={() => setExpandedId(null)}
                     aria-label={blogConfig.closeArticleLabel}
-                    className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-12 h-12 bg-black/70 hover:bg-gold hover:text-black rounded-full flex items-center justify-center text-white transition-colors"
+                    className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-12 h-12 bg-black/70 hover:bg-gold hover:text-black rounded-none flex items-center justify-center text-white transition-colors"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -307,11 +307,11 @@ export function Blog() {
                     <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0806] via-[#0a0806]/60 to-transparent pointer-events-none" />
                     <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 flex items-center gap-6 text-body-sm text-gold/80">
-                      <span className="flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-full border border-gold/20">
+                      <span className="flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-none border border-gold/20">
                         <Clock className="w-4 h-4" />
                         {blogConfig.readTimePrefix}{post.readTime}
                       </span>
-                      <span className="flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-full border border-gold/20">
+                      <span className="flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-none border border-gold/20">
                         <Calendar className="w-4 h-4" />
                         {post.date}
                       </span>
@@ -339,7 +339,7 @@ export function Blog() {
                     <div className="mt-12 pt-8 border-t border-white/10 flex justify-between items-center">
                       <button
                         onClick={() => setExpandedId(null)}
-                        className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white tracking-widest rounded-sm border border-white/10 transition-[background-color] uppercase text-sm"
+                        className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white tracking-widest rounded-none border border-white/10 transition-[background-color] uppercase text-sm"
                       >
                         {blogConfig.closeArticleLabel}
                       </button>

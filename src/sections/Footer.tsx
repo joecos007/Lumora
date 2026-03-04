@@ -231,7 +231,7 @@ export function Footer() {
               className="inline-flex items-center gap-3 text-h5 lg:text-h4 text-white font-medium group hover:text-gold transition-colors duration-300"
             >
               {footerConfig.ctaText}
-              <span className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center group-hover:border-gold group-hover:shadow-[0_0_15px_var(--gold)] transition-all duration-300">
+              <span className="w-10 h-10 rounded-none border border-white/30 flex items-center justify-center group-hover:border-gold group-hover:shadow-[0_0_15px_var(--gold)] transition-all duration-300">
                 <ArrowUpRight className="w-5 h-5 group-hover:text-gold" />
               </span>
             </a>

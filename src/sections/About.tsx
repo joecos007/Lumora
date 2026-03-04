@@ -185,7 +185,7 @@ export function About() {
           <div className="lg:col-span-5 relative">
             <div
               ref={image1Ref}
-              className="relative w-full h-[600px] lg:h-full min-h-[500px] overflow-hidden rounded-sm group cursor-pointer"
+              className="relative w-full h-[600px] lg:h-full min-h-[500px] overflow-hidden rounded-none group cursor-pointer"
             >
               <img
                 src={aboutConfig.image1}
@@ -240,7 +240,7 @@ export function About() {
               {/* Author image */}
               <div
                 ref={authorImageRef}
-                className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-full border border-gold/40 relative group cursor-pointer"
+                className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-none border border-gold/40 relative group cursor-pointer"
               >
                 <img
                   src={aboutConfig.authorImage}

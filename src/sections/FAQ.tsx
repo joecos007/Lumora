@@ -102,7 +102,7 @@ export function FAQ() {
 
                 {/* Plus/Minus Icon */}
                 <div
-                  className={`w-12 h-12 rounded-full border flex-shrink-0 flex items-center justify-center transition-all duration-300 ${openIndex === index
+                  className={`w-12 h-12 rounded-none border flex-shrink-0 flex items-center justify-center transition-all duration-300 ${openIndex === index
                     ? 'bg-gold border-gold text-black rotate-45'
                     : 'border-white/20 text-white group-hover:border-gold/50'
                     }`}

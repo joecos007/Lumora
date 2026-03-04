@@ -247,7 +247,7 @@ export function Works() {
 
                   {/* Arrow icon */}
                   <div className="absolute top-6 right-6">
-                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-black group-hover:scale-110 transition-[background-color,color,transform] duration-300 motion-reduce:transition-none motion-reduce:transform-none">
+                    <div className="w-12 h-12 rounded-none bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-black group-hover:scale-110 transition-[background-color,color,transform] duration-300 motion-reduce:transition-none motion-reduce:transform-none">
                       <ArrowUpRight className="w-5 h-5 text-white group-hover:text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 motion-reduce:transition-none motion-reduce:transform-none" />
                     </div>
                   </div>
@@ -286,12 +286,12 @@ export function Works() {
                   exit={prefersReducedMotion ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
                   transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: 'easeOut', delay: 0.15 }}
                   onClick={(e) => e.stopPropagation()}
-                  className="relative w-full max-w-5xl bg-[#0a0806] border border-gold/20 rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl"
+                  className="relative w-full max-w-5xl bg-[#0a0806] border border-gold/20 rounded-none overflow-hidden flex flex-col md:flex-row shadow-2xl"
                 >
                   <button
                     onClick={() => setExpandedId(null)}
                     aria-label={worksConfig.closeProjectLabel}
-                    className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/70 hover:bg-gold hover:text-black rounded-full flex items-center justify-center text-white transition-colors"
+                    className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/70 hover:bg-gold hover:text-black rounded-none flex items-center justify-center text-white transition-colors"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -317,7 +317,7 @@ export function Works() {
                     </p>
                     <button
                       onClick={() => setExpandedId(null)}
-                      className="px-8 py-3 bg-white/10 hover:bg-gold hover:text-black hover:font-medium text-white tracking-widest rounded-sm border border-white/20 transition-[background-color,color,border-color] duration-300 w-fit uppercase text-sm"
+                      className="px-8 py-3 bg-white/10 hover:bg-gold hover:text-black hover:font-medium text-white tracking-widest rounded-none border border-white/20 transition-[background-color,color,border-color] duration-300 w-fit uppercase text-sm"
                     >
                       {worksConfig.closeProjectLabel}
                     </button>

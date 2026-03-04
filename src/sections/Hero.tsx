@@ -207,7 +207,7 @@ export function Hero() {
       <div className="absolute top-24 pt-safe left-1/2 -translate-x-1/2 z-20 w-max max-w-[90vw]">
         <div
           ref={badgeRef}
-          className="px-5 md:px-6 py-2 rounded border border-white/20 bg-black/20 backdrop-blur-md"
+          className="px-5 md:px-6 py-2 rounded-none border border-white/20 bg-black/20 backdrop-blur-md"
         >
           <span className="text-body-sm font-medium tracking-[0.1em] md:tracking-[0.2em] uppercase shimmer-text text-center block">
             {heroConfig.badge}
@@ -230,7 +230,7 @@ export function Hero() {
 
         <p
         ref={subtitleRef}
-        className="text-body md:text-body-lg lg:text-h5 font-light text-white/90 tracking-[0.1em] lg:tracking-[0.15em] uppercase bg-black/40 lg:bg-black/25 backdrop-blur-md px-4 py-2 lg:px-5 lg:py-1.5 rounded inline-block"
+        className="text-body md:text-body-lg lg:text-h5 font-light text-white/90 tracking-[0.1em] lg:tracking-[0.15em] uppercase bg-black/40 lg:bg-black/25 backdrop-blur-md px-4 py-2 lg:px-5 lg:py-1.5 rounded-none inline-block"
       >
           {heroConfig.subtitle}
         </p>
@@ -242,7 +242,7 @@ export function Hero() {
             onMouseMove={handleButtonMouseMove}
             onMouseLeave={handleButtonMouseLeave}
             onClick={(e) => handleScrollClick(e, '#works')}
-            className="inline-block px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-gold/90 hover:border-gold hover:text-black hover:font-semibold transition-all duration-300 font-medium tracking-[0.15em] uppercase rounded-sm cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+            className="inline-block px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-gold/90 hover:border-gold hover:text-black hover:font-semibold transition-all duration-300 font-medium tracking-[0.15em] uppercase rounded-none cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.3)]"
           >
             Explore Collection
           </a>

@@ -139,7 +139,7 @@ export function Testimonials() {
               ref={(el) => {
                 cardsRef.current[index] = el;
               }}
-              className="testimonial-card relative w-full min-h-[400px] h-auto mb-8 lg:mb-12 luxury-glass rounded-2xl p-8 lg:p-12 flex flex-col justify-between hover-lift group border border-gold/10 hover:border-gold/20 hover:shadow-[0_0_30px_rgba(201,165,90,0.1)] transition-all duration-500"
+              className="testimonial-card relative w-full min-h-[400px] h-auto mb-8 lg:mb-12 luxury-glass rounded-none p-8 lg:p-12 flex flex-col justify-between hover-lift group border border-gold/10 hover:border-gold/20 hover:shadow-[0_0_30px_rgba(201,165,90,0.1)] transition-all duration-500 motion-reduce:transition-none motion-reduce:transform-none"
               style={{
                 top: `${index * 40}px`,
                 zIndex: index,
@@ -166,7 +166,7 @@ export function Testimonials() {
 
                 {/* Author */}
                 <div className="flex items-center gap-6 mt-12">
-                  <div className="avatar-wrapper relative w-16 h-16 rounded-full overflow-hidden border border-gold/40 shadow-[0_0_15px_rgba(201,165,90,0.2)] flex-shrink-0">
+                  <div className="avatar-wrapper relative w-16 h-16 rounded-none overflow-hidden border border-gold/40 shadow-[0_0_15px_rgba(201,165,90,0.2)] flex-shrink-0">
                     <img
                       src={testimonial.image}
                       alt={testimonial.name}
@@ -189,7 +189,7 @@ export function Testimonials() {
               </div>
 
               {/* Hover glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl overflow-hidden">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-none overflow-hidden motion-reduce:transition-none">
                 <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent" />
               </div>
             </div>

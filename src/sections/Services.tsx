@@ -195,7 +195,7 @@ export function Services() {
                       </p>
 
                       {service.image && (
-                        <div className="w-full md:w-1/2 aspect-[4/3] overflow-hidden rounded-md border border-gold/20">
+                        <div className="w-full md:w-1/2 aspect-[4/3] overflow-hidden rounded-none border border-gold/20">
                           <img src={service.image} alt={service.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       )}
