@@ -220,35 +220,35 @@ export function Works() {
                 }}
               >
                 {/* Card content */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-dark-gray border border-white/5 group-hover:gold-border-glow transition-[border-color,box-shadow] duration-300">
+                <div className="relative aspect-[3/4] overflow-hidden bg-dark-gray border border-white/5 group-hover:gold-border-glow transition-[border-color,box-shadow] duration-300 motion-reduce:transition-none">
                   <img
                     src={project.image}
                     alt={project.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover transition-[transform,filter] duration-500 group-hover:scale-110 group-hover:brightness-110"
+                    className="w-full h-full object-cover transition-[transform,filter] duration-500 group-hover:scale-110 group-hover:brightness-110 motion-reduce:transition-none motion-reduce:transform-none"
                   />
 
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 motion-reduce:transition-none" />
 
                   {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-8 group-hover:translate-y-0 transition-transform duration-500" style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                    <p className="text-body-sm text-gold/60 mb-2 group-hover:text-gold transition-[color,opacity,transform] duration-300 transform -translate-y-4 group-hover:-translate-y-0 opacity-0 group-hover:opacity-100">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-8 group-hover:translate-y-0 transition-transform duration-500 motion-reduce:transition-none motion-reduce:translate-y-0" style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                    <p className="text-body-sm text-gold/60 mb-2 group-hover:text-gold transition-[color,opacity,transform] duration-300 transform -translate-y-4 group-hover:-translate-y-0 opacity-0 group-hover:opacity-100 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100">
                       {project.category}
                     </p>
-                    <h3 className="text-h4 lg:text-h3 text-white font-medium mb-3 transform -translate-y-2 group-hover:-translate-y-0 transition-transform duration-500">
+                    <h3 className="text-h4 lg:text-h3 text-white font-medium mb-3 transform -translate-y-2 group-hover:-translate-y-0 transition-transform duration-500 motion-reduce:transition-none motion-reduce:translate-y-0">
                       {project.title}
                     </h3>
-                    <p className="text-body-sm text-white/50 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-[opacity,transform] duration-500 delay-100 line-clamp-3">
+                    <p className="text-body-sm text-white/50 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-[opacity,transform] duration-500 delay-100 line-clamp-3 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100">
                       {project.description}
                     </p>
                   </div>
 
                   {/* Arrow icon */}
                   <div className="absolute top-6 right-6">
-                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-black group-hover:scale-110 transition-[background-color,color,transform] duration-300">
-                      <ArrowUpRight className="w-5 h-5 text-white group-hover:text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-black group-hover:scale-110 transition-[background-color,color,transform] duration-300 motion-reduce:transition-none motion-reduce:transform-none">
+                      <ArrowUpRight className="w-5 h-5 text-white group-hover:text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300 motion-reduce:transition-none motion-reduce:transform-none" />
                     </div>
                   </div>
                 </div>

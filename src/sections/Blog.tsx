@@ -124,6 +124,7 @@ export function Blog() {
   }, [expandedId]);
 
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (prefersReducedMotion) return;
     if (!buttonRef.current) return;
     if (!buttonBoundsRef.current) {
       buttonBoundsRef.current = buttonRef.current.getBoundingClientRect();
@@ -145,6 +146,7 @@ export function Blog() {
 
   const handleButtonMouseLeave = () => {
     buttonBoundsRef.current = null;
+    if (prefersReducedMotion || !buttonRef.current) return;
     gsap.to(buttonRef.current, {
       x: 0,
       y: 0,
