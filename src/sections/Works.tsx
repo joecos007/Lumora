@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { worksConfig } from '../config';
+import { lockScroll, unlockScroll } from '../lib/scrollLock';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,8 @@ export function Works() {
     }
     return false;
   })();
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const triggersRef = useRef<ScrollTrigger[]>([]);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
@@ -62,7 +65,7 @@ export function Works() {
         // Cards — simple fade-up on mobile, 3D flip on desktop
         cardsRef.current.forEach((card, i) => {
           if (card) {
-            if (isTouchDevice) {
+            if (isTouchDevice || prefersReducedMotion) {
               tl.fromTo(
                 card,
                 { y: 40, opacity: 0 },
@@ -84,8 +87,8 @@ export function Works() {
     });
     triggersRef.current.push(trigger);
 
-    // Scroll depth effect — desktop only (3D z-depth is expensive on mobile GPU)
-    if (!isTouchDevice) {
+    // Scroll depth effect — desktop only (skip on mobile/reduced-motion)
+    if (!isTouchDevice && !prefersReducedMotion) {
       const scrollTrigger = ScrollTrigger.create({
         trigger: section,
         start: 'top bottom',
@@ -107,30 +110,28 @@ export function Works() {
     }
 
     return () => {
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
-  }, [isTouchDevice]);
+  }, [isTouchDevice, prefersReducedMotion]);
 
-  // Pause scroll depth effect when modal is open; lock body scroll on mobile
+  // Pause scroll depth effect when modal is open; lock body scroll
   useEffect(() => {
     if (expandedId !== null) {
       scrollTriggerRef.current?.disable();
-      document.body.style.overflow = 'hidden';
-    } else {
-      scrollTriggerRef.current?.enable();
-      document.body.style.overflow = '';
+      lockScroll();
+      return () => {
+        scrollTriggerRef.current?.enable();
+        unlockScroll();
+      };
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [expandedId]);
 
   const handleMouseMove = (
     e: React.MouseEvent<HTMLDivElement>,
     index: number
   ) => {
-    if (isTouchDevice || expandedId !== null) return;
+    if (isTouchDevice || prefersReducedMotion || expandedId !== null) return;
 
     const card = cardsRef.current[index];
     if (!card) return;
@@ -148,7 +149,7 @@ export function Works() {
   };
 
   const handleMouseLeave = (index: number) => {
-    if (isTouchDevice || expandedId !== null) return;
+    if (isTouchDevice || prefersReducedMotion || expandedId !== null) return;
 
     const card = cardsRef.current[index];
     if (!card) return;
@@ -171,7 +172,7 @@ export function Works() {
         ref={sectionRef}
         id="works"
         className="relative py-20 md:py-32 px-6 md:px-8 lg:px-16 bg-[#0d0b08] overflow-hidden"
-        style={isTouchDevice ? undefined : { perspective: '1200px' }}
+        style={(isTouchDevice || prefersReducedMotion) ? undefined : { perspective: '1200px' }}
       >
         {/* Header */}
         <div className="max-w-7xl mx-auto mb-16 relative">
@@ -205,7 +206,7 @@ export function Works() {
                 }}
                 className={`relative group cursor-pointer ${index === 0 ? 'md:col-span-1 md:row-span-1' : ''
                   } ${index % 2 === 0 ? 'md:-translate-y-8' : 'md:translate-y-8'}`}
-                style={isTouchDevice ? undefined : { transformStyle: 'preserve-3d' }}
+                style={(isTouchDevice || prefersReducedMotion) ? undefined : { transformStyle: 'preserve-3d' }}
                 onMouseMove={(e) => handleMouseMove(e, index)}
                 onMouseLeave={() => handleMouseLeave(index)}
                 onClick={() => setExpandedId(project.id)}
@@ -289,7 +290,7 @@ export function Works() {
                 >
                   <button
                     onClick={() => setExpandedId(null)}
-                    aria-label="Close project details"
+                    aria-label={worksConfig.closeProjectLabel}
                     className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/70 hover:bg-gold hover:text-black rounded-full flex items-center justify-center text-white transition-colors"
                   >
                     <X className="w-5 h-5" />

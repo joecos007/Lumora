@@ -22,6 +22,8 @@ export function Footer() {
   const borderRef = useRef<HTMLDivElement>(null);
   const triggersRef = useRef<ScrollTrigger[]>([]);
   const marqueeTweenRef = useRef<gsap.core.Tween | null>(null);
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     if (!footerConfig.copyright) return;
@@ -30,13 +32,13 @@ export function Footer() {
     if (!section) return;
 
     const startMarquee = () => {
-      if (!marqueeContentRef.current) return;
+      if (!marqueeContentRef.current || prefersReducedMotion) return;
       marqueeTweenRef.current?.kill();
       const contentWidth = marqueeContentRef.current.scrollWidth / 2;
       marqueeTweenRef.current = gsap.to(marqueeContentRef.current, {
         x: -contentWidth,
         duration: 20,
-        ease: "none",
+        ease: 'none',
         repeat: -1,
       });
     };
@@ -106,10 +108,10 @@ export function Footer() {
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
       marqueeTweenRef.current?.kill();
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   if (!footerConfig.copyright) return null;
 

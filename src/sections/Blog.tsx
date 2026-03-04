@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Clock, Calendar, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { blogConfig } from '../config';
+import { lockScroll, unlockScroll } from '../lib/scrollLock';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -103,9 +104,9 @@ export function Blog() {
     triggersRef.current.push(trigger);
 
     return () => {
-      timeoutIdsRef.current.forEach((id) => clearTimeout(id));
+      timeoutIdsRef.current.forEach((id) => { clearTimeout(id); });
       timeoutIdsRef.current = [];
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
   }, []);
@@ -113,13 +114,11 @@ export function Blog() {
   // Lock body scroll when modal is open
   useEffect(() => {
     if (expandedId !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
+      lockScroll();
+      return () => {
+        unlockScroll();
+      };
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [expandedId]);
 
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -137,7 +136,7 @@ export function Blog() {
       x: x * 15,
       y: y * 15,
       duration: 0.3,
-      ease: "power2.out",
+      ease: 'power2.out',
       overwrite: true
     });
   };
@@ -148,7 +147,7 @@ export function Blog() {
       x: 0,
       y: 0,
       duration: 0.7,
-      ease: "elastic.out(1, 0.3)"
+      ease: 'elastic.out(1, 0.3)'
     });
   };
 
@@ -294,7 +293,7 @@ export function Blog() {
                 >
                   <button
                     onClick={() => setExpandedId(null)}
-                    aria-label="Close article"
+                    aria-label={blogConfig.closeArticleLabel}
                     className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-12 h-12 bg-black/70 hover:bg-gold hover:text-black rounded-full flex items-center justify-center text-white transition-colors"
                   >
                     <X className="w-6 h-6" />

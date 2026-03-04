@@ -90,7 +90,7 @@ export function Services() {
     triggersRef.current.push(trigger);
 
     return () => {
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
   }, []);
@@ -143,6 +143,7 @@ export function Services() {
             >
               <button
                 type="button"
+                id={`service-button-${service.id}`}
                 className="w-full py-10 flex flex-col md:flex-row md:items-center justify-between text-left cursor-pointer"
                 onClick={() => toggleAccordion(index)}
                 aria-expanded={expandedIndex === index}
@@ -179,6 +180,9 @@ export function Services() {
               <AnimatePresence>
                 {expandedIndex === index && (
                   <motion.div
+                    id={`service-panel-${service.id}`}
+                    role="region"
+                    aria-labelledby={`service-button-${service.id}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}

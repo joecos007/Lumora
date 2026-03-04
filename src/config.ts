@@ -102,12 +102,14 @@ export interface WorkItem {
 export interface WorksConfig {
   title: string;
   subtitle: string;
+  closeProjectLabel: string;
   projects: WorkItem[];
 }
 
 export const worksConfig: WorksConfig = {
   title: "Collections",
   subtitle: "Handpicked from the world\u2019s finest artisans, each piece waiting to become part of your story.",
+  closeProjectLabel: "Close project details",
   projects: [
     {
       id: 1,
@@ -293,6 +295,7 @@ export interface BlogConfig {
   allPostsLabel: string;
   readMoreLabel: string;
   readTimePrefix: string;
+  closeArticleLabel: string;
   posts: BlogPost[];
 }
 
@@ -302,6 +305,7 @@ export const blogConfig: BlogConfig = {
   allPostsLabel: "All Letters",
   readMoreLabel: "Read More",
   readTimePrefix: "Read ",
+  closeArticleLabel: "Close article",
   posts: [
     {
       id: 1,

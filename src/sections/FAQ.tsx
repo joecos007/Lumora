@@ -49,7 +49,7 @@ export function FAQ() {
     triggersRef.current.push(trigger);
 
     return () => {
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
   }, []);
@@ -113,7 +113,7 @@ export function FAQ() {
 
               {/* Answer */}
               <div
-                className={`overflow-hidden transition-all duration-500 ${openIndex === index
+                className={`overflow-hidden transition-all duration-500 motion-reduce:transition-none ${openIndex === index
                   ? 'max-h-[500px] opacity-100'
                   : 'max-h-0 opacity-0'
                   }`}

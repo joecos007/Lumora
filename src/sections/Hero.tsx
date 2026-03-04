@@ -21,6 +21,8 @@ export function Hero() {
   const triggersRef = useRef<ScrollTrigger[]>([]);
   const isTouchDevice = typeof window !== 'undefined'
     && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     if (!heroConfig.title) return;
@@ -84,8 +86,8 @@ export function Hero() {
 
     requestAnimationFrame(() => setLoaded(true));
 
-    // Scroll effects — skip parallax scrub on mobile to prevent jank
-    if (!isTouchDevice) {
+    // Scroll effects — skip parallax scrub on mobile/reduced-motion
+    if (!isTouchDevice && !prefersReducedMotion) {
       const trigger1 = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
@@ -127,10 +129,10 @@ export function Hero() {
 
     return () => {
       tl.kill();
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
-  }, [isTouchDevice]);
+  }, [isTouchDevice, prefersReducedMotion]);
 
   const handleButtonMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!buttonRef.current) return;
@@ -147,7 +149,7 @@ export function Hero() {
       x: x * 15,
       y: y * 15,
       duration: 0.3,
-      ease: "power2.out",
+      ease: 'power2.out',
       overwrite: true
     });
   };
@@ -158,7 +160,7 @@ export function Hero() {
       x: 0,
       y: 0,
       duration: 0.7,
-      ease: "elastic.out(1, 0.3)"
+      ease: 'elastic.out(1, 0.3)'
     });
   };
 

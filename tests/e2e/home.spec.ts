@@ -493,5 +493,6 @@ test.describe('Lumora - Full E2E Suite', () => {
 
     await closeBtn.click();
     await page.waitForTimeout(500);
+    await expect(modal).not.toBeVisible();
   });
 });

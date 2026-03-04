@@ -13,6 +13,8 @@ export function Testimonials() {
   const triggersRef = useRef<ScrollTrigger[]>([]);
   const isTouchDevice = typeof window !== 'undefined'
     && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     if (!testimonialsConfig.title || testimonialsConfig.testimonials.length === 0) return;
@@ -39,10 +41,10 @@ export function Testimonials() {
           if (card) {
             tl.fromTo(
               card,
-              isTouchDevice
+              (isTouchDevice || prefersReducedMotion)
                 ? { y: 40, opacity: 0 }
                 : { y: 100, z: -50, rotateX: 15, opacity: 0 },
-              isTouchDevice
+              (isTouchDevice || prefersReducedMotion)
                 ? { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }
                 : { y: 0, z: 0, rotateX: 0, opacity: 1, duration: 1, ease: 'expo.out' },
               `-=${0.8 - i * 0.2}`
@@ -80,8 +82,8 @@ export function Testimonials() {
     });
     triggersRef.current.push(trigger);
 
-    // Sticky card stacking scroll effect — skip on mobile
-    if (!isTouchDevice) {
+    // Sticky card stacking scroll effect — skip on mobile/reduced-motion
+    if (!isTouchDevice && !prefersReducedMotion) {
       const scrollTrigger = ScrollTrigger.create({
         trigger: section,
         start: 'top 20%',
@@ -106,10 +108,10 @@ export function Testimonials() {
     }
 
     return () => {
-      triggersRef.current.forEach((t) => t.kill());
+      triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
-  }, [isTouchDevice]);
+  }, [isTouchDevice, prefersReducedMotion]);
 
   if (!testimonialsConfig.title || testimonialsConfig.testimonials.length === 0) return null;
 
@@ -118,7 +120,7 @@ export function Testimonials() {
       ref={sectionRef}
       id="testimonials"
       className="relative py-20 md:py-32 px-6 md:px-8 lg:px-16 bg-gradient-to-b from-dark-gray to-black overflow-hidden"
-      style={isTouchDevice ? undefined : { perspective: '1200px' }}
+      style={(isTouchDevice || prefersReducedMotion) ? undefined : { perspective: '1200px' }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Section title */}

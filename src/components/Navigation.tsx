@@ -17,6 +17,8 @@ export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isTouchDevice = typeof window !== 'undefined'
     && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     if (!navigationConfig.logo) return;
@@ -34,9 +36,9 @@ export function Navigation() {
     };
   }, []);
 
-  // GSAP glow pulse on the SVG diamond
+  // GSAP glow pulse on the SVG diamond — skip if reduced motion
   useEffect(() => {
-    if (!logoIconRef.current) return;
+    if (!logoIconRef.current || prefersReducedMotion) return;
 
     const sparkle = logoIconRef.current.querySelector('.diamond-sparkle');
     const body = logoIconRef.current.querySelector('.diamond-body');
@@ -74,11 +76,11 @@ export function Navigation() {
         ease: 'sine.inOut',
       });
     }
-  }, []);
+  }, [prefersReducedMotion]);
 
   // GSAP letter-by-letter shimmer on "Lumora" text
   useEffect(() => {
-    if (!logoTextRef.current) return;
+    if (!logoTextRef.current || prefersReducedMotion) return;
 
     const chars = logoTextRef.current.querySelectorAll('.logo-char');
     if (chars.length === 0) return;
@@ -94,7 +96,7 @@ export function Navigation() {
         ease: 'sine.inOut',
       }
     );
-  }, []);
+  }, [prefersReducedMotion]);
 
   if (!navigationConfig.logo) return null;
 
@@ -122,7 +124,7 @@ export function Navigation() {
       x: x * 15,
       y: y * 15,
       duration: 0.3,
-      ease: "power2.out"
+      ease: 'power2.out'
     });
   };
 
@@ -132,7 +134,7 @@ export function Navigation() {
       x: 0,
       y: 0,
       duration: 0.7,
-      ease: "elastic.out(1, 0.3)"
+      ease: 'elastic.out(1, 0.3)'
     });
   };
 
@@ -164,8 +166,8 @@ export function Navigation() {
               <motion.div
                 className="absolute inset-0 -m-2"
                 animate={{
-                  opacity: (isScrolled && !isTouchDevice) ? [0.3, 0.7, 0.3] : 0,
-                  scale: (isScrolled && !isTouchDevice) ? [0.95, 1.05, 0.95] : 1,
+                  opacity: (isScrolled && !isTouchDevice && !prefersReducedMotion) ? [0.3, 0.7, 0.3] : 0,
+                  scale: (isScrolled && !isTouchDevice && !prefersReducedMotion) ? [0.95, 1.05, 0.95] : 1,
                 }}
                 transition={{
                   duration: 3,
