@@ -138,8 +138,8 @@ export function Footer() {
             ref={marqueeContentRef}
             className="flex items-center text-[36px] md:text-[56px] lg:text-[112px] font-medium whitespace-nowrap will-change-transform flex-nowrap w-max"
           >
-            {/* We render exactly 4 sets to ensure the seam is never visible on any screen size */}
-            {[...Array(4)].map((_, i) => (
+            {/* Two copies for seamless infinite scroll */}
+            {[...Array(2)].map((_, i) => (
               <span key={i} className="flex items-center gap-4 md:gap-8 px-4 md:px-8 whitespace-nowrap shrink-0">
                 {marqueeText.split('').map((char, j) => (
                   <span
@@ -253,9 +253,12 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <div className="mt-4 text-center">
-          <p className="text-body-sm text-white/80 hover:text-gold transition-colors duration-300 tracking-wide font-medium">
-            {footerConfig.developerCredit}
+        <div className="mt-4 flex flex-col items-center gap-1">
+          <p className="text-body-sm text-white/50 tracking-wide">
+            {footerConfig.developerCreditLine1}
+          </p>
+          <p className="text-body-sm text-gold/80 tracking-widest font-medium uppercase">
+            {footerConfig.developerCreditLine2}
           </p>
         </div>
       </div>

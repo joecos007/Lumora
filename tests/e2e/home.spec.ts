@@ -330,8 +330,9 @@ test.describe('Lumora - Full E2E Suite', () => {
     // Copyright
     await expect(page.getByText('2026 Lumora. All rights reserved.')).toBeVisible();
 
-    // Developer credit
-    await expect(page.getByText('Fueled by Caffeine & Code. Crafted by Oliver Oinam.')).toBeVisible();
+    // Developer credit (split into 2 lines)
+    await expect(page.getByText('Fueled by Caffeine & Code.')).toBeVisible();
+    await expect(page.getByText('Crafted by Oliver Oinam.')).toBeVisible();
 
     // CTA link
     await expect(page.getByText('Begin Your Journey')).toBeVisible();

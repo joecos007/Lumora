@@ -398,7 +398,8 @@ export interface FooterConfig {
   ctaHref: string;
   copyright: string;
   tagline: string;
-  developerCredit: string;
+  developerCreditLine1: string;
+  developerCreditLine2: string;
 }
 
 export const footerConfig: FooterConfig = {
@@ -418,5 +419,6 @@ export const footerConfig: FooterConfig = {
   ctaHref: "#contact",
   copyright: "\u00a9 2026 Lumora. All rights reserved.",
   tagline: "Curated with devotion, worn with radiance.",
-  developerCredit: "Fueled by Caffeine & Code. Crafted by Oliver Oinam.",
+  developerCreditLine1: "Fueled by Caffeine & Code.",
+  developerCreditLine2: "Crafted by Oliver Oinam.",
 };
