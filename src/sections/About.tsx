@@ -18,6 +18,8 @@ export function About() {
   const triggersRef = useRef<ScrollTrigger[]>([]);
   const isTouchDevice = typeof window !== 'undefined'
     && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
+  const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     if (!aboutConfig.titleLine1) return;
@@ -112,8 +114,8 @@ export function About() {
     });
     triggersRef.current.push(trigger);
 
-    // Parallax on scroll — skip on mobile to prevent jank
-    if (!isTouchDevice) {
+    // Parallax on scroll — skip on mobile/reduced-motion to prevent jank
+    if (!isTouchDevice && !prefersReducedMotion) {
       const parallaxTrigger = ScrollTrigger.create({
         trigger: section,
         start: 'top bottom',
@@ -144,7 +146,7 @@ export function About() {
       triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
-  }, [isTouchDevice]);
+  }, [isTouchDevice, prefersReducedMotion]);
 
   if (!aboutConfig.titleLine1) return null;
 

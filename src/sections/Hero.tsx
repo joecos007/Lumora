@@ -29,60 +29,70 @@ export function Hero() {
 
     const tl = gsap.timeline({ delay: 0.2 });
 
-    // Image scale + fade
-    tl.fromTo(
-      imageRef.current,
-      { scale: 1.1, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.8, ease: 'expo.out' }
-    );
+    if (prefersReducedMotion) {
+      tl.set(imageRef.current, { scale: 1, opacity: 1 });
+      tl.set(badgeRef.current, { y: 0, opacity: 1 });
+      tl.set(titleRef.current, { y: 0, opacity: 1 });
+      tl.set(subtitleRef.current, { filter: 'blur(0px)', opacity: 1 });
+      tl.set(servicesRef.current, { x: 0, opacity: 1 });
+      tl.set(lineRef.current, { height: 120 });
+      tl.set(copyrightRef.current, { y: 0, opacity: 1 });
+    } else {
+      // Image scale + fade
+      tl.fromTo(
+        imageRef.current,
+        { scale: 1.1, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.8, ease: 'expo.out' }
+      );
 
-    // Badge fade + slide down
-    tl.fromTo(
-      badgeRef.current,
-      { y: -20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-      '-=1.2'
-    );
+      // Badge fade + slide down
+      tl.fromTo(
+        badgeRef.current,
+        { y: -20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
+        '-=1.2'
+      );
 
-    // Title fade up
-    tl.fromTo(
-      titleRef.current,
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'expo.out' },
-      '-=0.8'
-    );
+      // Title fade up
+      tl.fromTo(
+        titleRef.current,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'expo.out' },
+        '-=0.8'
+      );
 
-    // Subtitle blur reveal
-    tl.fromTo(
-      subtitleRef.current,
-      { filter: 'blur(12px)', opacity: 0 },
-      { filter: 'blur(0px)', opacity: 1, duration: 0.8, ease: 'power2.out' },
-      '-=0.6'
-    );
+      // Subtitle blur reveal
+      tl.fromTo(
+        subtitleRef.current,
+        { filter: 'blur(12px)', opacity: 0 },
+        { filter: 'blur(0px)', opacity: 1, duration: 0.8, ease: 'power2.out' },
+        '-=0.6'
+      );
 
-    // Services slide in
-    tl.fromTo(
-      servicesRef.current,
-      { x: -50, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.7, ease: 'expo.out' },
-      '-=0.4'
-    );
+      // Services slide in
+      tl.fromTo(
+        servicesRef.current,
+        { x: -50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.7, ease: 'expo.out' },
+        '-=0.4'
+      );
 
-    // Line grow
-    tl.fromTo(
-      lineRef.current,
-      { height: 0 },
-      { height: 120, duration: 1.2, ease: 'expo.inOut' },
-      '-=0.6'
-    );
+      // Line grow
+      tl.fromTo(
+        lineRef.current,
+        { height: 0 },
+        { height: 120, duration: 1.2, ease: 'expo.inOut' },
+        '-=0.6'
+      );
 
-    // Copyright fade
-    tl.fromTo(
-      copyrightRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
-      '-=0.8'
-    );
+      // Copyright fade
+      tl.fromTo(
+        copyrightRef.current,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
+        '-=0.8'
+      );
+    }
 
     requestAnimationFrame(() => setLoaded(true));
 

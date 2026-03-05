@@ -43,9 +43,9 @@ export function Footer() {
       });
     };
 
-    let resizeTimer: number;
+    let resizeTimer: number | undefined;
     const handleResize = () => {
-      clearTimeout(resizeTimer);
+      if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(startMarquee, 200);
     };
 
@@ -105,7 +105,7 @@ export function Footer() {
     triggersRef.current.push(trigger);
 
     return () => {
-      clearTimeout(resizeTimer);
+      if (resizeTimer) clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
       marqueeTweenRef.current?.kill();
       triggersRef.current.forEach((t) => { t.kill(); });

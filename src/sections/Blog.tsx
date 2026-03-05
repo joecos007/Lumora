@@ -36,17 +36,21 @@ export function Blog() {
         // Title typewriter effect
         if (titleRef.current) {
           const text = titleRef.current.textContent || '';
-          titleRef.current.textContent = '';
           titleRef.current.style.opacity = '1';
 
-          text.split('').forEach((char, i) => {
-            const id = window.setTimeout(() => {
-              if (titleRef.current) {
-                titleRef.current.textContent += char;
-              }
-            }, i * 60);
-            timeoutIdsRef.current.push(id);
-          });
+          if (prefersReducedMotion) {
+            titleRef.current.textContent = text;
+          } else {
+            titleRef.current.textContent = '';
+            text.split('').forEach((char, i) => {
+              const id = window.setTimeout(() => {
+                if (titleRef.current) {
+                  titleRef.current.textContent += char;
+                }
+              }, i * 60);
+              timeoutIdsRef.current.push(id);
+            });
+          }
         }
 
         // Description fade
@@ -111,7 +115,7 @@ export function Blog() {
       triggersRef.current.forEach((t) => { t.kill(); });
       triggersRef.current = [];
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Lock body scroll when modal is open
   useEffect(() => {

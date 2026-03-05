@@ -16,10 +16,33 @@ export function Contact() {
   const inputsRef = useRef<(HTMLDivElement | null)[]>([]);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const triggersRef = useRef<ScrollTrigger[]>([]);
-  const isTouchDevice = typeof window !== 'undefined'
-    && (window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
-  const prefersReducedMotion = typeof window !== 'undefined'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const checkMedia = () => {
+      setIsTouchDevice(window.innerWidth < 768 || window.matchMedia('(hover: none)').matches);
+      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    };
+    checkMedia();
+    
+    const touchQuery = window.matchMedia('(hover: none)');
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    const handleTouchChange = (e: MediaQueryListEvent) => setIsTouchDevice(e.matches || window.innerWidth < 768);
+    const handleMotionChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    
+    touchQuery.addEventListener('change', handleTouchChange);
+    motionQuery.addEventListener('change', handleMotionChange);
+    window.addEventListener('resize', checkMedia);
+
+    return () => {
+      touchQuery.removeEventListener('change', handleTouchChange);
+      motionQuery.removeEventListener('change', handleMotionChange);
+      window.removeEventListener('resize', checkMedia);
+    };
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -350,7 +373,7 @@ export function Contact() {
             >
               <span className="relative z-10">{contactConfig.submitButtonText}</span>
               <Send className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-              <div className="absolute inset-0 bg-gold-light transform -translate-x-full group-hover:translate-x-0 transition-transform duration-400" style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }} />
+              <div className="absolute inset-0 bg-gold-light transform -translate-x-full group-hover:translate-x-0 transition-transform duration-400" style={{ transitionTimingFunction: 'var(--ease-expo-out)' }} />
             </button>
           </form>
 
